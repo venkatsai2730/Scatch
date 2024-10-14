@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-['helvetica_now_display']">
+    
+    <nav class="w-full fixed top-0 left-0 px-5 py-3 flex justify-between">
+        <h3 class="text-xl"></h3>
+        <% var loggedin = typeof loggedin == "undefined" ? true : loggedin; %>
+        <% if (loggedin) { %>
+            <div class="flex gap-5">
+                <a href="/shop" class="text-xl">Shop</a>
+                <a href="/cart" class="text-xl">Cart</a>
+                <a href="/account" class="text-xl">My Account</a>
+                <a href="/user/logout" class="text-xl text-red-600">Logout</a>
+            </div>
+        <% } %>
+        
+        
+    </nav>
+
+       
+        

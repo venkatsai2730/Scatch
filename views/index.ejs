@@ -1,0 +1,98 @@
+<%- include('./partials/header') %>
+
+<!-- Navbar -->
+<nav class="w-full py-4 bg-blue-600 shadow-md">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-white text-2xl font-semibold">Scatch</a>
+        <ul class="flex space-x-20">
+            <li><a href="/shop" class="text-white text-xl hover:text-blue-300 transition duration-300">Shop</a></li>
+            <li><a href="/cart" class="text-white text-xl hover:text-blue-300 transition duration-300">Cart</a></li>
+            <li><a href="/account" class="text-white text-xl hover:text-blue-300 transition duration-300">My Account</a></li>
+            <li><a href="/user/logout" class="text-white text-xl hover:text-blue-300 transition duration-300">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Error Handling -->
+<% if((error || '').length > 0) { %>
+    <div id="errorMessage" class="absolute top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-md shadow-md">
+        <%= error %>
+    </div>
+<% } %>
+
+<% if((success || '').length > 0) { %>
+    <div id="successMessage" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md">
+        <%= success %>
+    </div>
+<% } %>
+
+<script>
+    // Function to remove flash messages after a specified time
+    function removeFlashMessages() {
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Check if error message exists and remove it after 3 seconds
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.transition = "opacity 0.5s ease-out";
+                errorMessage.style.opacity = 0;
+                setTimeout(() => {
+                    errorMessage.remove();
+                }, 500); // Wait for the transition to complete
+            }, 2500); // 3 seconds (2.5 seconds + 0.5s for the transition)
+        }
+
+        // Check if success message exists and remove it after 3 seconds
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.transition = "opacity 0.5s ease-out";
+                successMessage.style.opacity = 0;
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 500); // Wait for the transition to complete
+            }, 2500); // 3 seconds (2.5 seconds + 0.5s for the transition)
+        }
+    }
+
+    // Call the function to remove flash messages
+    removeFlashMessages();
+</script>
+
+<!-- Main Content -->
+<div class="w-full h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+    <!-- Registration Form -->
+    <div class="w-1/2 h-screen flex items-center justify-center">
+        <div class="bg-white p-10 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+            <h3 class="text-4xl text-gray-700 font-semibold">Welcome to <span class="text-blue-500">Scatch</span></h3>
+            <h4 class="text-2xl mb-5 text-gray-600">Create Your Account</h4>
+            <form autocomplete="off" action="/user/register" method="post">
+                <input class="bg-gray-100 block w-full px-4 py-2 border border-gray-300 rounded-md mb-4 transition duration-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                    type="text" placeholder="Full Name" name="fullname">
+                <input class="bg-gray-100 block w-full px-4 py-2 border border-gray-300 rounded-md mb-4 transition duration-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                    type="email" placeholder="Email" name="email">
+                <input class="bg-gray-100 block w-full px-4 py-2 border border-gray-300 rounded-md mb-4 transition duration-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                    type="password" placeholder="Password" name="password">
+                <input class="px-5 py-3 mt-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 cursor-pointer"
+                    type="submit" value="Create My Account">
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="w-1/2 h-screen flex items-center justify-center">
+        <div class="bg-white p-10 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+            <h4 class="text-2xl mb-5 text-gray-600">Login to Your Account</h4>
+            <form autocomplete="off" action="/user/login" method="post">
+                <input class="bg-gray-100 block w-full px-4 py-2 border border-gray-300 rounded-md mb-4 transition duration-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                    type="email" placeholder="Email" name="email">
+                <input class="bg-gray-100 block w-full px-4 py-2 border border-gray-300 rounded-md mb-4 transition duration-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                    type="password" placeholder="Password" name="password">
+                <input class="px-5 py-3 mt-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 cursor-pointer"
+                    type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>
