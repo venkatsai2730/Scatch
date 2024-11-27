@@ -5,6 +5,8 @@ const productSchema = require("../models/product-model");
 const isloggedin = require("../middlewares/isLoggedIn");
 const userModel = require('../models/user-model');
 const csrf = require('csurf');
+const upload =require ("../config/multer-config");
+const productModel =require("../models/product-model");
 
 // Initialize CSRF protection
 const csrfProtection = csrf({ cookie: true });
@@ -22,6 +24,85 @@ router.get("/shop", isloggedin, async (req,res)=>{
     let success = req.flash("success");
     res.render('shop',{products,success});
 })
+
+
+router.get("/monitor", isloggedin, async (req, res) => {
+  try {
+      const products = await productModel.find();
+      res.render("monitor", { products, success: req.flash("success"), error: req.flash("error") });
+  } catch (err) {
+      console.error(err);
+      req.flash("error", "Failed to fetch products.");
+      res.redirect("/shop");
+  }
+});
+
+// Edit Product
+router.post("/edit/:id", isloggedin, upload.single('image'), async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { name, price, discount, bgcolor, panelcolor, textcolor } = req.body;
+
+      // Prepare update object
+      const updatedData = {
+          name,
+          price,
+          discount,
+          bgcolor,
+          panelcolor,
+          textcolor,
+      };
+
+      // Include image if a new file was uploaded
+      if (req.file) {
+          updatedData.image = req.file.buffer;
+      }
+
+      await productModel.findByIdAndUpdate(id, updatedData);
+      req.flash("success", "Product updated successfully.");
+      res.redirect("/shop"); // Redirect to admin dashboard after successful update
+  } catch (err) {
+      console.error(err);
+      req.flash("error", "Failed to update product.");
+
+      // Redirect to the update page with the current product ID
+      res.redirect(`/product/edit/${req.params.id}`);
+  }
+});
+
+// Delete Product
+router.post("/delete/:id", isloggedin, async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      await productModel.findByIdAndDelete(id);
+      req.flash("success", "Product deleted successfully.");
+      res.redirect("/shop");
+  } catch (err) {
+      console.error(err);
+      req.flash("error", "Failed to delete product.");
+      res.redirect("/shop");
+  }
+});
+
+router.get("/product/edit/:id", isloggedin, async (req, res) => {
+  try {
+      const product = await productModel.findById(req.params.id);
+
+      if (!product) {
+          req.flash("error", "Product not found.");
+          return res.redirect("/shop");
+      }
+
+      res.render("edit", { product, success: req.flash("success"), error: req.flash("error") });
+  } catch (err) {
+      console.error(err);
+      req.flash("error", "Failed to load product details.");
+      res.redirect("/shop");
+  }
+});
+
+
 
 router.get("/cart", isloggedin, csrfProtection, async (req, res) => {
   try {

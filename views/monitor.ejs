@@ -1,0 +1,81 @@
+<%- include('./partials/header') %>
+
+<nav class="w-full gap-28 py-4 bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-white text-3xl font-bold tracking-wider">Scatch</a>
+        <ul class="flex space-x-10">
+            <li>
+                <a href="/shop" class="text-white text-lg hover:text-yellow-300 transition-all duration-300">
+                    Shop
+                </a>
+            </li>
+            <li>
+                <a href="/cart" class="text-white text-lg hover:text-yellow-300 transition-all duration-300">
+                    Cart
+                </a>
+            </li>
+            <li>
+                <a href="/user/logout" class="text-white text-lg hover:text-yellow-300 transition-all duration-300">
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mx-auto my-10 px-4">
+    <h1 class="text-5xl font-extrabold text-gray-900 mb-8 text-center">Monitor Products</h1>
+
+    <!-- Flash Messages -->
+    <% if (error) { %>
+        
+            <%= error %>
+        
+    <% } %>
+    <% if (success) { %>
+        
+            <%= success %>
+        
+    <% } %>
+
+    <!-- Product List -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% products.forEach(product => { %>
+            <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <div class="aspect-w-4 aspect-h-3 mb-4">
+                    <img src="data:image/png;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>" 
+                         class="w-full h-full object-cover rounded-t-md">
+                </div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-3 truncate"><%= product.name %></h2>
+                <p class="text-gray-600 mb-1">
+                    <span class="font-medium text-gray-700">Price:</span> $<%= product.price %>
+                </p>
+                <p class="text-gray-600 mb-1">
+                    <span class="font-medium text-gray-700">Discount:</span> <%= product.discount %>%
+                </p>
+                <p class="text-gray-600 mb-1">
+                    <span class="font-medium text-gray-700">Background Color:</span> <%= product.bgcolor %>
+                </p>
+                <p class="text-gray-600 mb-4">
+                    <span class="font-medium text-gray-700">Panel Color:</span> <%= product.panelcolor %>
+                </p>
+
+                <!-- Edit Button -->
+                <form action="/product/edit/<%= product._id %>" method="get" class="mb-2">
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+                        Edit
+                    </button>
+                </form>
+
+                <!-- Delete Button -->
+                <form action="/delete/<%= product._id %>" method="post">
+                    <button type="submit" class="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

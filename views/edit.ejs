@@ -1,0 +1,82 @@
+<%- include('./partials/header') %>
+<nav class="w-full py-4 bg-blue-600 shadow-md">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-white text-2xl font-semibold">Scatch</a>
+        <ul class="flex space-x-20">
+            <li><a href="/shop" class="text-white text-xl hover:text-blue-300 transition duration-300">Shop</a></li>
+            <li><a href="/cart" class="text-white text-xl hover:text-blue-300 transition duration-300">Cart</a></li>
+            
+            <li><a href="/user/logout" class="text-white text-xl hover:text-blue-300 transition duration-300">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mx-auto my-10 px-4">
+    <h1 class="text-5xl font-extrabold text-gray-800 mb-6 text-center">Edit Product</h1>
+
+    <% if (error) { %>
+       
+            <%= error %>
+        
+    <% } %>
+    <% if (success) { %>
+        
+            <%= success %>
+        
+    <% } %>
+
+    <form action="/edit/<%= product._id %>" method="post" enctype="multipart/form-data" 
+          class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <!-- Product Name -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Product Name:</label>
+            <input type="text" name="name" value="<%= product.name %>" 
+                   class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Price -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Price:</label>
+            <input type="number" name="price" value="<%= product.price %>" 
+                   class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Discount -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Discount:</label>
+            <input type="number" name="discount" value="<%= product.discount %>" 
+                   class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Background Color -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Background Color:</label>
+            <input type="color" name="bgcolor" value="<%= product.bgcolor %>" 
+                   class="w-full h-12 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Panel Color -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Panel Color:</label>
+            <input type="color" name="panelcolor" value="<%= product.panelcolor %>" 
+                   class="w-full h-12 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Upload Image -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-lg font-semibold mb-2">Upload New Image (Optional):</label>
+            <input type="file" name="image" 
+                   class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" 
+                    class="bg-blue-600 text-white px-6 py-3 text-lg rounded-lg shadow-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                Update Product
+            </button>
+        </div>
+    </form>
+</div>
+
+<%- include('./partials/footer') %>

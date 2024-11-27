@@ -29,6 +29,8 @@ router.get("/admin",function(req,res){
     res.render("createproducts",{success});
 });
 
+
+
 router.post("/");
 
 
